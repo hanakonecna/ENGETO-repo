@@ -50,30 +50,56 @@ if users.get(username) == password:
     print("We have 3 texts to be analyzed.", separator, sep="\n")
 else:
     print("unregistered user, terminating the program..")
+    quit()
 
-text_number = int(input("Enter a number btw. 1 and 3 to select: "))
-selected_text = TEXTS[text_number - 1]
-words = selected_text.split()
+text_number = input("Enter a number btw. 1 and 3 to select: ")
 
-if 1 <= text_number <= 3:
-    words_count = len(words)
-    print(f"There are {words_count} words in the selected text.")
+if text_number.isdigit():
+    number_input = int(text_number)
 
-    titlecase_count = sum(1 for word in words if word.istitle())
-    print(f"There are {titlecase_count} titlecase words.")
+    selected_text = TEXTS[number_input - 1]
+    words = selected_text.split()
 
-    uppercase_count = sum(1 for word in words if word.isupper())
-    print(f"There are {uppercase_count} uppercase words.")
+    if 1 <= number_input <= 3:
+        
+        words_count = len(words)
+        print(f"There are {words_count} words in the selected text.")
 
-    lowercase_count = sum(1 for word in words if word.islower())
-    print(f"There are {lowercase_count} lowercase words.")
+        titlecase_count = sum(1 for word in words if word.istitle())
+        print(f"There are {titlecase_count} titlecase words.")
 
-    numeric_string = sum(1 for word in words if word.isnumeric())
-    print(f"There are {numeric_string} numeric strings.")
+        uppercase_count = sum(1 for word in words if word.isupper())
+        print(f"There are {uppercase_count} uppercase words.")
 
-    numbers = [int(word) for word in words if word.isdigit()]
-    sum_numbers = sum(numbers)
-    print(f"The sum of all the numbers {sum_numbers}")
-    print(separator)
+        lowercase_count = sum(1 for word in words if word.islower())
+        print(f"There are {lowercase_count} lowercase words.")
+
+        numeric_string = sum(1 for word in words if word.isnumeric())
+        print(f"There are {numeric_string} numeric strings.")
+
+        numbers = [int(word) for word in words if word.isdigit()]
+        sum_numbers = sum(numbers)
+        print(f"The sum of all the numbers {sum_numbers}")
+        print(separator)
+
+        word_length = []
+        for word in words:
+            word_length.append(len(word))
+        
+        occurence = {}
+        for length in word_length:
+            if length not in occurence:
+                occurence[length] = 1
+            else:
+                occurence[length] += 1
+
+        print(" LEN | OCCURENCES | NR.")
+        print(separator)
+       
+        for length, frequency in sorted(occurence.items()):
+            print(f"{length:2} | {'*' * frequency:<{max(occurence.values())}} | {frequency:2}")
+    else:
+        print("Wrong input, terminating the program...")
+
 else:
     print("Wrong input, terminating the program...")
