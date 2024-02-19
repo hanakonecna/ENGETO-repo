@@ -47,20 +47,19 @@ password = input("password: ")
 
 if users.get(username) == password:
     print(separator, f"Welcome to the app, {username}", sep="\n")
-    print("We have 3 texts to be analyzed.", separator, sep="\n")
+    print(f"We have {len(TEXTS)} texts to be analyzed.", separator, sep="\n")
 else:
     print("unregistered user, terminating the program..")
     quit()
 
-text_number = input("Enter a number btw. 1 and 3 to select: ")
+number = input(f"Enter a number btw. 1 and {len(TEXTS)} to select: ")
 
-if text_number.isdigit():
-    number_input = int(text_number)
+if number.isdigit():
+    number_input = int(number)  
 
-    selected_text = TEXTS[number_input - 1]
-    words = selected_text.split()
-
-    if 1 <= number_input <= 3:
+    if 1 <= number_input <= len(TEXTS):
+        
+        words = [word.strip(",.:;'") for word in TEXTS[number_input - 1].split()]
         
         words_count = len(words)
         print(f"There are {words_count} words in the selected text.")
@@ -85,7 +84,7 @@ if text_number.isdigit():
         word_length = []
         for word in words:
             word_length.append(len(word))
-        
+
         occurence = {}
         for length in word_length:
             if length not in occurence:
@@ -98,6 +97,7 @@ if text_number.isdigit():
        
         for length, frequency in sorted(occurence.items()):
             print(f"{length:2} | {'*' * frequency:<{max(occurence.values())}} | {frequency:2}")
+
     else:
         print("Wrong input, terminating the program...")
 
